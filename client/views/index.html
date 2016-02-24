@@ -1,0 +1,180 @@
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Puntush - Facebook Bakchodi </title>
+    <meta name="description"
+          content="Puntush app is collection of amazing stuff from facebook"/>
+
+    <!-- Roboto font -->
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Twitter Card data -->
+ <!--    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@icenodes">
+    <meta name="twitter:title" content="Meteor app for retrieving and displaying a Facebook page feed">
+    <meta name="twitter:description"
+          content="Meteor app for retrieving and displaying a Facebook page feed. Built by ICENodes">
+    <meta name="twitter:creator" content="@cambrozie">
+    <meta name="twitter:image" content="http://meteor-facebook-feed.icenodes.com/images/meteor-facebook-feed.jpg">
+ -->
+    <!-- Open Graph data -->
+    <!-- <meta property="og:title" content="Meteor app for retrieving and displaying a Facebook page feed"/>
+    <meta property="og:type" content="article"/>
+    <meta property="og:url" content="http://meteor-facebook-feed.icenodes.com"/>
+    <meta property="og:image" content="http://meteor-facebook-feed.icenodes.com/images/meteor-facebook-feed.jpg"/>
+    <meta property="og:description"
+          content="Meteor app for retrieving and displaying a Facebook page feed. Built by ICENodes"/>
+    <meta property="og:site_name" content="ICENodes"/>
+ -->
+    <!-- Favicon -->
+    <!-- <link rel="shortcut icon" href="/images/favicon.png"> -->
+</head>
+<body>
+
+</body>
+
+<template name="index">
+
+    <div class="container">
+        
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 share-buttons">
+                  <button id="changeTab" type="button" class="btn btn-primary btn-sm" value = 'GoTMemes'>GoT Memes
+                    </button>
+
+            <button id="changeTab" type="button" class="btn btn-primary btn-sm" value = 'madovermarketing'>mad over marketing
+                    </button>
+
+        <button id="changeTab" type="button" class="btn btn-primary btn-sm" value = 'BollywoodMemes'>Bollywood Memes
+                    </button>
+               <button id="changeTab" type="button" class="btn btn-primary btn-sm" value = 'Backchodbilli'>Backchod billi
+                    </button>
+
+               <button id="changeTab" type="button" class="btn btn-primary btn-sm" value = 'ZehreeliChummi'>Zehreeli Chummi
+                    </button>
+
+           
+            </div>
+        </div>
+       <!--  <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                Meteor showcase app for retrieving and displaying a Facebook page feed using Masonry cascading grid
+                layout. Features include changing the page, filtering the posts based on keywords and refreshing the
+                posts. You can enter multiple search keywords - separated by space - and the results will display the
+                posts containing at least one keyword from the given ones.
+            </div>
+        </div> -->
+        <!-- <div class="row">
+            <div class="col-md-6 col-md-offset-3 fbPage-col">
+                <div class="col-md-6 col-md-offset-2 fbPage-name">
+                    <b>facebook.com/{{fbPage}}</b>
+                </div>
+                <div class="col-md-2">
+                    <button id="changePageButton" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                            data-target="#changePageModal">Change page
+                    </button>
+                </div>
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 search-col">
+                <div class="col-md-6 col-md-offset-2">
+                    <div class="input-group input-group-sm">
+                        <input id="searchInput" type="text" class="form-control">
+                       <span class="input-group-btn">
+                          <button id="searchButton" class="btn btn-default" type="button">
+                              <i class="fa fa-search"></i>
+                          </button>
+                       </span>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <button id="refreshPostsButton" type="button" class="btn btn-primary btn-sm">Refresh posts
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4 search-result-col">
+                {{#if keywords}}
+                    <p class="smallText"><b>Keywords: </b>
+                        {{#each keywords}}
+                            {{keyword}}&nbsp;
+                        {{/each}}
+                    </p>
+
+                    <p class="smallText">Found <b>{{displayedCards.length}}</b> matches from
+                        last {{retrievedCards.length}} posts. Scroll down or click the
+                        <i>Load more posts</i> button to keep searching through more posts.</p>
+                {{/if}}
+            </div>
+        </div>
+        <div class="row posts-row">
+            <div class="col-md-10 col-md-offset-1 posts-container">
+                {{#if displayedCards}}
+                    {{>postsContainerTemplate}}
+                {{/if}}
+                {{#if retrievedCards}}
+                    <button id="loadMorePostsButton" type="button" class="btn btn-primary btn-sm">Load more posts
+                    </button>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="changePageModal" tabindex="-1" role="dialog" aria-labelledby="changePageModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="changePageModalLabel">Change Facebook page</h4>
+                </div>
+                <form class="changePageForm" name="addPageForm">
+                    <div class="modal-body">
+
+                        <div class="input-group">
+                            <span class="input-group-addon" id="sizing-addon2">www.facebook.com/</span>
+                            <input id="pageName" type="text" name="pageName" class="form-control" placeholder="Page"
+                                   aria-describedby="sizing-addon2" required="true" value="{{fbPage}}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Ok">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template name="postsContainerTemplate">
+    {{#masonryContainer columnWidth=300 transitionDuration="0.4s" gutter=10 id="postsContainer" }}
+        {{#each displayedCards}}
+            {{#masonryElement "postsContainer"}}
+                {{>card}}
+            {{/masonryElement}}
+        {{/each}}
+    {{/masonryContainer}}
+</template>
+
+<template name="card">
+    <div class="postItem">
+        {{#if imageSource}}
+            <a href="{{link}}"><img src="https://graph.facebook.com/{{imageSource}}/picture"/></a>
+        {{/if}}
+
+        <i class="fa fa-facebook-square"></i>
+        <span>{{createdTime}}</span>
+
+        {{#if message}}
+            <p>{{message}}&nbsp;&nbsp;<a href="{{link}}">more</a></p>
+        {{else}}
+            <p><a href="{{link}}">more</a></p>
+        {{/if}}
+    </div>
+</template>
